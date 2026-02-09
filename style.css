@@ -1,23 +1,260 @@
 :root {
-  --background-color: #ffffff;
-  --text-color: #333333;
+    --bg-color-light: #F0F2F5;
+    --text-color-light: #1c1e21;
+    --card-bg-color-light: #FFFFFF;
+    --primary-btn-bg-light: #2D88FF;
+    --primary-btn-text-light: #FFFFFF;
+    --secondary-btn-bg-light: #E4E6EB;
+    --secondary-btn-text-light: #050505;
+    --shadow-light: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --font-family: 'Nanum Gothic', sans-serif;
+
+    --bg-color-dark: #18191A;
+    --text-color-dark: #E4E6EB;
+    --card-bg-color-dark: #242526;
+    --primary-btn-bg-dark: #2D88FF;
+    --primary-btn-text-dark: #FFFFFF;
+    --secondary-btn-bg-dark: #3A3B3C;
+    --secondary-btn-text-dark: #E4E6EB;
+    --shadow-dark: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 body {
-  background-color: var(--background-color);
-  color: var(--text-color);
-  font-family: sans-serif;
-  transition: background-color 0.3s, color 0.3s;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
 }
 
-.dark-mode {
-  --background-color: #333333;
-  --text-color: #ffffff;
+body[data-theme='light'] {
+    background-color: var(--bg-color-light);
+    color: var(--text-color-light);
 }
 
-#theme-toggle {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  cursor: pointer;
+body[data-theme='dark'] {
+    background-color: var(--bg-color-dark);
+    color: var(--text-color-dark);
+}
+
+.app-container {
+    width: 100%;
+    max-width: 500px;
+    padding: 40px 30px;
+    border-radius: 16px;
+    text-align: center;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+body[data-theme='light'] .app-container {
+    background-color: var(--card-bg-color-light);
+    box-shadow: var(--shadow-light);
+}
+
+body[data-theme='dark'] .app-container {
+    background-color: var(--card-bg-color-dark);
+    box-shadow: var(--shadow-dark);
+}
+
+.app-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 8px;
+    color: #2D88FF;
+}
+
+.app-description {
+    margin-bottom: 40px;
+    font-size: 1rem;
+    opacity: 0.7;
+}
+
+.lotto-numbers-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 40px;
+    min-height: 60px;
+}
+
+.lotto-ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    box-shadow: inset -5px -5px 10px rgba(0,0,0,0.3), 2px 2px 8px rgba(0,0,0,0.4);
+    animation: appear 0.5s ease-out forwards;
+}
+
+@keyframes appear {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.button-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.action-button, .secondary-button {
+    border: none;
+    padding: 14px 28px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: var(--font-family);
+    cursor: pointer;
+    transition: transform 0.2s, background-color 0.2s, box-shadow 0.2s;
+    min-width: 130px;
+}
+
+.action-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(45, 136, 255, 0.4);
+}
+
+.secondary-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.action-button:active {
+    transform: translateY(0);
+}
+
+body[data-theme='light'] .action-button {
+    background-color: var(--primary-btn-bg-light);
+    color: var(--primary-btn-text-light);
+}
+
+body[data-theme='dark'] .action-button {
+    background-color: var(--primary-btn-bg-dark);
+    color: var(--primary-btn-text-dark);
+}
+
+body[data-theme='light'] .secondary-button {
+    background-color: var(--secondary-btn-bg-light);
+    color: var(--secondary-btn-text-light);
+}
+
+body[data-theme='dark'] .secondary-button {
+    background-color: var(--secondary-btn-bg-dark);
+    color: var(--secondary-btn-text-dark);
+}
+
+.secondary-button:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+/* Theme Switcher */
+.theme-switcher {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.theme-toggle-checkbox {
+    display: none;
+}
+
+.theme-toggle-label {
+    display: block;
+    width: 50px;
+    height: 26px;
+    background-color: #3A3B3C;
+    border-radius: 50px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.theme-toggle-label::after {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 22px;
+    background-color: white;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transition: transform 0.3s;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label {
+    background-color: #E4E6EB;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label::after {
+    transform: translateX(24px);
+}
+
+.theme-toggle-label .sun, .theme-toggle-label .moon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 14px;
+    transition: opacity 0.3s;
+}
+
+.theme-toggle-label .sun {
+    left: 5px;
+    opacity: 0;
+}
+
+.theme-toggle-label .moon {
+    right: 5px;
+    opacity: 1;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .sun {
+    opacity: 1;
+}
+
+.theme-toggle-checkbox:checked + .theme-toggle-label .moon {
+    opacity: 0;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    body {
+        padding: 10px;
+    }
+    .app-container {
+        padding: 25px 15px;
+    }
+    .app-title {
+        font-size: 1.5rem;
+    }
+    .app-description {
+        margin-bottom: 30px;
+    }
+    .lotto-numbers-container {
+        gap: 10px;
+    }
+    .lotto-ball {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+    .button-group {
+        flex-direction: column;
+    }
 }
